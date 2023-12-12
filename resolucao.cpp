@@ -40,7 +40,7 @@ int main() {
     while (1) {
         int n, i, j;
         
-//criando um array de Nodos chamado crianca com tamanho máximo de 100
+//criando um vetor de Nodos chamado crianca com tamanho máximo de 100
         Nodo crianca[100];
         
 //lendo o número de elementos na lista circular
@@ -48,7 +48,7 @@ int main() {
         if (!n)
         break; // Se n for 0, encerra o programa
         
-//preenchendo o array crianca com dados fornecidos pelo usuário
+//preenchendo o vetor crianca com dados fornecidos pelo usuário
         for (i = 0; i < n; ++i) {
             char nome[30];
             int valor;
