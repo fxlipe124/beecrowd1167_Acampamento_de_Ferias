@@ -1,0 +1,84 @@
+/***********************************************/ 
+/* beecrowd | 1167 Acampamento de Férias       */
+/* grupo: Charles Babbage					   */
+/* programador: Felipe Adona e Bryan Ruppenthal*/
+/* testador: Anderson						   */
+/* criado em: 01/12/2021                       */
+/* data da última alteração: 11/12/2023        */
+/***********************************************/ 
+
+#include <stdio.h>
+// entrada e saída padrão: printf, scanf
+
+struct Nodo {
+    char nome[30];
+    int valor;
+    struct Nodo* anterior;
+    struct Nodo* proximo;};
+//definida estrutura chamada Nodo que representa um nó na lista circular. 
+//cada nó contém um nome (uma string de até 30 caracteres), um valor inteiro, um ponteiro para o nó anterior na lista e um ponteiro para o próximo nó na lista.
+
+typedef struct Nodo Nodo; // cria um nome para a struct para facilitar o uso.
+
+void iniciaNODO(Nodo* nodo, char nome[30], int valor) {
+    for (int i = 0; i < 30; ++i) {
+        nodo->nome[i] = nome[i];}
+    nodo->valor = valor;
+    nodo->anterior = NULL;
+    nodo->proximo = NULL;}
+//função iniciaNODO recebe um ponteiro para um nó (Nodo* nodo), um nome e um valor, e inicializa os campos do nó com esses valores.
+
+int main() {
+    while (1) {
+        int n, i, j;
+//variaveis
+//n = numero de criancas
+//i = indice
+//j = indice
+        Nodo crianca[100];
+
+        scanf("%d", &n);
+        if (!n)
+            break;
+//programa entra em loop e solicita ao usuário que insira um número N. 
+//Se N for zero, encerra o programa.
+
+        for (i = 0; i < n; ++i) {
+            char nome[30];
+            int valor;
+            scanf("%s%d", nome, &valor);
+
+            iniciaNODO(&crianca[i], nome, valor);
+
+            crianca[i].anterior = &crianca[(i - 1 + n) % n];
+            crianca[i].proximo = &crianca[(i + 1) % n];}
+//o programa entra em um loop de N vezes para criar uma lista circular de crianças. 
+//cada criança, recebe o nome e o valor e, em seguida, a função iniciaNODO é chamada para inicializar o nó correspondente.
+//ponteiros anterior e proximo são configurados para criar a lista circular.
+
+        i = 0;
+        while (n > 1) {
+            int valor = crianca[i].valor;
+
+            for (j = 0; j < valor; ++j) {
+                if (valor % 2) {
+                    i = crianca[i].proximo - crianca;
+                } else {
+                    i = crianca[i].anterior - crianca;}}
+//programa entra em outro loop que simula o jogo de eliminação. 
+//percorre a lista circular valor vezes, onde valor é o valor associado à criança atual.
+//lógica determina se a criança é eliminada indo para o próximo ou para o anterior com base no valor.
+
+            crianca[i].anterior->proximo = crianca[i].proximo;
+            crianca[i].proximo->anterior = crianca[i].anterior;
+            --n;}
+//depois de determinar qual criança deve ser eliminada, os ponteiros anterior e proximo dos nós vizinhos são ajustados para "pular" a criança eliminada. 
+//número total de crianças N é decrementado.
+
+        i = crianca[i].proximo - crianca;
+//índice do nó restante é atualizado para o próximo na lista.
+
+        printf("Vencedor(a): %s\n", crianca[i].nome);}
+    return 0;}
+//programa imprime o nome da última criança restante, que é declarada como vencedora.
+//loop externo continua até que o usuário insira 0.
